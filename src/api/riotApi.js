@@ -10,13 +10,15 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function safeRequest(url) {
   try {
-    const res = await axios.get(`${url}?api_key=${API_KEY}`);
+    // 이미 URL에 ?가 있으면 &로 연결, 없으면 ?로 연결
+    const separator = url.includes("?") ? "&" : "?";
+    const res = await axios.get(`${url}${separator}api_key=${API_KEY}`);
     return res.data;
   } catch (error) {
     if (error.response?.status === 429) {
       console.warn("⚠️ Riot API 요청 한도 초과 → 2분 대기 후 재시도합니다...");
       await delay(120000);
-      return await safeRequest(url); // 재귀 재시도
+      return await safeRequest(url);
     } else {
       console.error("❌ 요청 실패:", error.response?.data || error.message);
       throw error;

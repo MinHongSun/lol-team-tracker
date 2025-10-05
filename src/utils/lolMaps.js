@@ -29,6 +29,8 @@ export const positionMap = {
 
 // 🔹 챔피언 매핑
 export const championMap = {
+  "Aurora": "오로라",
+  "Yunara": "유나라",
   "MonkeyKing": "오공",
   "Aatrox": "아트록스",
   "Ahri": "아리",
